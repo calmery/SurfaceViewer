@@ -13,5 +13,5 @@ app.on("ready", () => {
 
   // Main
 
-  launch(browserWindow)
+  launch(browserWindow);
 });
