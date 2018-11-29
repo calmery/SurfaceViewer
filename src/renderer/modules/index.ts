@@ -6,19 +6,19 @@ import {
   RouterState
 } from "connected-react-router";
 
-import counter, { CounterState } from "./counter/reducer";
+import graphData, { GraphDataState } from "./graphData/reducer";
 
 export const history = createBrowserHistory();
 const middleware = routerMiddleware(history);
 
 export interface State {
-  counter: CounterState;
+  graphData: GraphDataState;
   router: RouterState;
 }
 
 export const store = createStore(
   combineReducers({
-    counter,
+    graphData,
     router: connectRouter(history)
   }),
   applyMiddleware(middleware)

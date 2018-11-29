@@ -24,7 +24,7 @@ const getAbsoluteFilePath = (filePath: string): string | undefined => {
 // Main
 
 export default (directoryPath: string) => {
-  const scheme = 'app';
+  const scheme = "app";
   const absoluteDirectoryPath = path.resolve(
     electron.app.getAppPath(),
     directoryPath
@@ -50,5 +50,5 @@ export default (directoryPath: string) => {
 
   return (browserWindow: electron.BrowserWindow) => {
     browserWindow.loadURL(`${scheme}://-`);
-  }
+  };
 };
