@@ -48,7 +48,7 @@
     "webpack-merge": "4.1.4"
   },
   "engine": {
-    "node": "10.13.0",
+    "node": "10.14.1",
     "npm": "6.4.1"
   },
   "husky": {
