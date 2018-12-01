@@ -6,19 +6,19 @@ import {
   RouterState
 } from "connected-react-router";
 
-import graphData, { GraphDataState } from "./graphData/reducer";
+import csv, { CsvState } from "./csv/reducer";
 
 export const history = createBrowserHistory();
 const middleware = routerMiddleware(history);
 
 export interface State {
-  graphData: GraphDataState;
+  csv: CsvState;
   router: RouterState;
 }
 
 export const store = createStore(
   combineReducers({
-    graphData,
+    csv,
     router: connectRouter(history)
   }),
   applyMiddleware(middleware)
