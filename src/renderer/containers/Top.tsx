@@ -22,7 +22,12 @@ class Top extends React.Component<TopProps> {
       <>
         {Object.keys(csv).map(name => (
           <div key={name}>
-            <Graph width={800} height={600} title={name} csv={csv[name]} />
+            <Graph
+              width={window.innerWidth}
+              height={window.innerHeight}
+              title={name}
+              csv={csv[name]}
+            />
           </div>
         ))}
         <div style={{ width: 300, height: 300 }}>

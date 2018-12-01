@@ -12,11 +12,18 @@ interface GraphProps {
 
 export default class Graph extends React.Component<GraphProps> {
   render() {
-    const { csv } = this.props;
+    const { title, width, height, csv } = this.props;
 
     return (
       <ReactEcharts
+        style={{
+          width,
+          height
+        }}
         option={{
+          title: {
+            text: title
+          },
           xAxis3D: {
             type: "value"
           },
