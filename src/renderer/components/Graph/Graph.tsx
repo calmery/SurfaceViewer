@@ -1,4 +1,5 @@
 import * as React from "react";
+import "echarts-gl";
 import ReactEcharts from "echarts-for-react";
 import { Csv } from "../../types";
 
@@ -11,20 +12,37 @@ interface GraphProps {
 
 export default class Graph extends React.Component<GraphProps> {
   render() {
+    const { csv } = this.props;
+
     return (
       <ReactEcharts
         option={{
-          xAxis: {
-            type: "category",
-            data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-          },
-          yAxis: {
+          xAxis3D: {
             type: "value"
           },
+          yAxis3D: {
+            type: "value"
+          },
+          zAxis3D: {
+            type: "value"
+          },
+          grid3D: {},
           series: [
             {
-              data: [820, 932, 901, 934, 1290, 1330, 1320],
-              type: "line"
+              type: "surface",
+              equation: {
+                x: {
+                  min: 0,
+                  max: csv[0] ? csv[0].length - 1 : 0,
+                  step: 1
+                },
+                y: {
+                  min: 0,
+                  max: csv.length - 1,
+                  step: 1 // 0.05
+                },
+                z: (x, y) => csv[y][x]
+              }
             }
           ]
         }}
