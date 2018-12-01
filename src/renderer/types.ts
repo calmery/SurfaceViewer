@@ -1,10 +1,6 @@
-export interface GraphData {
-  x: string[];
-  y: string[];
-  z: string[];
-}
+export type Csv = string[][];
 
-export interface GraphFileData {
+export interface CsvFile {
   name: string;
-  data: GraphData;
+  csv: Csv;
 }

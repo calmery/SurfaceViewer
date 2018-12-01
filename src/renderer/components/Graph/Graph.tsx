@@ -1,24 +1,24 @@
 import * as React from "react";
 import * as Plot from "react-plotly.js";
-import { GraphData } from "../../types";
+import { Csv } from "../../types";
 
 interface GraphProps {
   title?: string;
   width?: number;
   height?: number;
-  data: GraphData;
+  csv: Csv;
 }
 
 export default class Graph extends React.Component<GraphProps> {
   render() {
-    const { title, width, height, data } = this.props;
+    const { title, width, height, csv } = this.props;
 
     return (
       <Plot
         data={[
           {
-            ...data,
-            type: "mesh3d",
+            z: csv,
+            type: "surface",
             opacity: 0.9
           }
         ]}

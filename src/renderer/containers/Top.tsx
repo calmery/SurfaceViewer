@@ -1,89 +1,63 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { Dispatch } from "redux";
 import { State } from "../modules";
-import { GraphData, GraphFileData } from "../types";
-import * as actions from "../modules/graphData/actions";
-import { GraphDataState } from "../modules/graphData/reducer";
+import { Csv, CsvFile } from "../types";
+import * as actions from "../modules/csv/actions";
+import { CsvState } from "../modules/csv/reducer";
 import Graph from "../components/Graph/Graph";
 import CsvFileForm from "../components/CsvFileForm/CsvFileForm";
 
 interface TopProps {
-  graphData: GraphDataState;
-  addGraphData: (fileName: string, graphData: GraphData) => void;
-  removeGraphData: (fileName: string) => void;
+  csv: CsvState;
+  addCsv: (name: string, csv: Csv) => void;
+  removeCsv: (name: string) => void;
 }
 
-interface TopState {
-  data: GraphData | null;
-}
-
-class Top extends React.Component<TopProps, TopState> {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      data: null
-    };
-  }
-
+class Top extends React.Component<TopProps> {
   public render() {
-    const { graphData } = this.props;
+    const { csv } = this.props;
 
     return (
       <>
-        {Object.keys(graphData).map(name => {
-          return (
-            <div key={name}>
-              <div onClick={() => this._onClickRemove(name)}>Remove</div>
-              <Graph
-                width={800}
-                height={600}
-                title={name}
-                data={graphData[name]}
-              />
-            </div>
-          );
-        })}
+        {Object.keys(csv).map(name => (
+          <div key={name}>
+            <Graph width={800} height={600} title={name} csv={csv[name]} />
+          </div>
+        ))}
         <div style={{ width: 300, height: 300 }}>
           <CsvFileForm
-            onLoad={this._onLoadGraphFileData.bind(this)}
-            onError={this._onErrorGraphFileData.bind(this)}
+            onLoad={this._onLoad.bind(this)}
+            onError={this._onError.bind(this)}
           />
         </div>
       </>
     );
   }
 
-  // Events
-
-  private _onClickRemove(fileName: string) {
-    const { removeGraphData } = this.props;
-    removeGraphData(fileName);
+  private _onLoad(results: CsvFile[]) {
+    const { addCsv } = this.props;
+    results.forEach(({ name, csv }) => addCsv(name, csv));
   }
 
-  private _onLoadGraphFileData(results: GraphFileData[]) {
-    const { addGraphData } = this.props;
-    results.forEach(({ name, data }) => addGraphData(name, data));
-  }
-
-  private _onErrorGraphFileData() {
+  private _onError() {
     // Pass
   }
 }
 
 const mapStateToProps = (state: State) => {
-  const { graphData } = state;
+  const { csv } = state;
 
-  return { graphData };
+  return { csv };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    addGraphData(fileName: string, graphData: GraphData) {
-      dispatch(actions.addGraphData(fileName, graphData));
+    addCsv(name: string, csv: Csv) {
+      dispatch(actions.addCsv(name, csv));
     },
-    removeGraphData(fileName: string) {
-      dispatch(actions.removeGraphData(fileName));
+    removeCsv(name: string) {
+      dispatch(actions.removeCsv(name));
     }
   };
 };

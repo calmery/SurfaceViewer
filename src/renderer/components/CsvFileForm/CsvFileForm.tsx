@@ -1,13 +1,13 @@
 import * as React from "react";
 import * as csvParse from "csv-parse";
 import * as mimeTypes from "mime-types";
-import { GraphData, GraphFileData } from "../../types";
+import { CsvFile } from "../../types";
 import FileForm from "../FileForm/FileForm";
 
 import * as styles from "./CsvFileForm.scss";
 
 interface CsvFileFormProps {
-  onLoad: (results: GraphFileData[]) => void;
+  onLoad: (results: CsvFile[]) => void;
   onError: () => void;
   multiple?: boolean;
 }
@@ -34,8 +34,8 @@ class CsvFileForm extends React.Component<CsvFileFormProps, CsvFileFormState> {
     return (
       <FileForm
         multiple={multiple}
-        onLoad={this._onDropAccepted.bind(this)}
-        onError={this._onDropRejected.bind(this)}
+        onLoad={this._onLoad.bind(this)}
+        onError={this._onError.bind(this)}
         accept={[mimeTypes.types.csv]}
       >
         <div className={styles.fileForm}>
@@ -51,20 +51,18 @@ class CsvFileForm extends React.Component<CsvFileFormProps, CsvFileFormState> {
     );
   }
 
-  // Events
-
-  private async _onDropAccepted(files: File[]) {
+  private async _onLoad(files: File[]) {
     const { onLoad } = this.props;
 
     try {
-      const result = await Promise.all(
+      const results = await Promise.all(
         files.map(async (file: File) => {
           const blob = await this.readBlob(file);
           const csv = await this.parseCSV(blob);
 
           return {
             name: file.name,
-            data: this.parseData(csv)
+            csv
           };
         })
       );
@@ -74,13 +72,13 @@ class CsvFileForm extends React.Component<CsvFileFormProps, CsvFileFormState> {
         rejected: false
       });
 
-      onLoad(result);
+      onLoad(results);
     } catch (error) {
-      this._onDropRejected();
+      this._onError();
     }
   }
 
-  private _onDropRejected() {
+  private _onError() {
     const { onError } = this.props;
 
     this.setState({
@@ -92,18 +90,6 @@ class CsvFileForm extends React.Component<CsvFileFormProps, CsvFileFormState> {
   }
 
   // Helpers
-
-  private parseData(csv: any[][]): GraphData {
-    const x = csv.map(row => row[0]);
-    const y = csv.map(row => row[1]);
-    const z = csv.map(row => row[2]);
-
-    return {
-      x,
-      y,
-      z
-    };
-  }
 
   private readBlob(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
