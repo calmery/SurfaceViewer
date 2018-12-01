@@ -7,6 +7,7 @@ import * as actions from "../modules/csv/actions";
 import { CsvState } from "../modules/csv/reducer";
 import Graph from "../components/Graph/Graph";
 import CsvFileForm from "../components/CsvFileForm/CsvFileForm";
+import FileList from "../components/FileList/FileList";
 
 interface TopProps {
   csv: CsvState;
@@ -19,24 +20,34 @@ class Top extends React.Component<TopProps> {
     const { csv } = this.props;
 
     return (
-      <>
-        {Object.keys(csv).map(name => (
-          <div key={name}>
-            <Graph
-              width={window.innerWidth}
-              height={window.innerHeight}
-              title={name}
-              csv={csv[name]}
+      <div style={{ display: "flex", width: "100%", height: "100%" }}>
+        <div
+          style={{
+            width: "300px",
+            height: "100%"
+          }}
+        >
+          <FileList files={Object.keys(csv).sort()} />
+        </div>
+        <div>
+          {Object.keys(csv).map(name => (
+            <div key={name}>
+              <Graph
+                width={800}
+                height={window.innerHeight}
+                title={name}
+                csv={csv[name]}
+              />
+            </div>
+          ))}
+          <div style={{ width: 300, height: 300 }}>
+            <CsvFileForm
+              onLoad={this._onLoad.bind(this)}
+              onError={this._onError.bind(this)}
             />
           </div>
-        ))}
-        <div style={{ width: 300, height: 300 }}>
-          <CsvFileForm
-            onLoad={this._onLoad.bind(this)}
-            onError={this._onError.bind(this)}
-          />
         </div>
-      </>
+      </div>
     );
   }
 

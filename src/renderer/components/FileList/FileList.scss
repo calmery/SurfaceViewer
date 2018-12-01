@@ -1,0 +1,38 @@
+.fileList {
+  width: 100%;
+  height: 100%;
+}
+
+.file {
+  padding: 8px 16px;
+  display: flex;
+  border-bottom: 1px solid rgba(245, 245, 245, 1);
+  font-size: 15px;
+  line-height: 20px;
+  height: 20px;
+}
+
+.name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.before {
+  margin-right: 8px;
+}
+
+.after {
+  margin-left: auto;
+}
+
+.eye {
+  width: 20px;
+  height: 20px;
+}
+
+.remove {
+  width: 16px;
+  height: 16px;
+  margin: 2px 0;
+}
