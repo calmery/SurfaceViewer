@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as Plot from "react-plotly.js";
+import ReactEcharts from "echarts-for-react";
 import { Csv } from "../../types";
 
 interface GraphProps {
@@ -11,21 +11,22 @@ interface GraphProps {
 
 export default class Graph extends React.Component<GraphProps> {
   render() {
-    const { title, width, height, csv } = this.props;
-
     return (
-      <Plot
-        data={[
-          {
-            z: csv,
-            type: "surface",
-            opacity: 0.9
-          }
-        ]}
-        layout={{
-          width,
-          height,
-          title
+      <ReactEcharts
+        option={{
+          xAxis: {
+            type: "category",
+            data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+          },
+          yAxis: {
+            type: "value"
+          },
+          series: [
+            {
+              data: [820, 932, 901, 934, 1290, 1330, 1320],
+              type: "line"
+            }
+          ]
         }}
       />
     );
