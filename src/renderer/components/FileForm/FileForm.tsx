@@ -11,10 +11,6 @@ interface FileFormProps {
 }
 
 class FileForm extends React.Component<FileFormProps> {
-  constructor(props) {
-    super(props);
-  }
-
   public render() {
     const { accept, multiple, children } = this.props;
 

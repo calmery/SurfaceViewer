@@ -38,7 +38,7 @@ class CsvFileForm extends React.Component<CsvFileFormProps, CsvFileFormState> {
         onError={this._onError.bind(this)}
         accept={[mimeTypes.types.csv]}
       >
-        <div className={styles.fileForm}>
+        <div className={styles.csvFileForm}>
           <div>
             <div>
               Choose File
@@ -62,7 +62,7 @@ class CsvFileForm extends React.Component<CsvFileFormProps, CsvFileFormState> {
 
           return {
             name: file.name,
-            csv
+            contents: csv
           };
         })
       );

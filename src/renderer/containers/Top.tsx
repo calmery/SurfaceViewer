@@ -1,79 +1,95 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
 import { State } from "../modules";
-import { Csv, CsvFile } from "../types";
-import * as actions from "../modules/csv/actions";
-import { CsvState } from "../modules/csv/reducer";
-import Graph from "../components/Graph/Graph";
+import { Dispatch } from "redux";
+import * as filesActions from "../modules/files/actions";
+import * as fileStatusesActions from "../modules/fileStatuses/actions";
+import { Contents, FileStatuses, Files, CsvFile, FileStatus } from "../types";
 import CsvFileForm from "../components/CsvFileForm/CsvFileForm";
 import FileList from "../components/FileList/FileList";
+import Graph from "../components/Graph/Graph";
 
 interface TopProps {
-  csv: CsvState;
-  addCsv: (name: string, csv: Csv) => void;
-  removeCsv: (name: string) => void;
+  files: Files;
+  fileStatuses: FileStatuses;
+  addFile: (name: string, contents: Contents) => void;
+  removeFile: (name: string) => void;
+  changeFileStatus: (name: string, status: FileStatus) => void;
 }
 
 class Top extends React.Component<TopProps> {
   public render() {
-    const { csv } = this.props;
+    const { files, fileStatuses } = this.props;
+
+    const csv = {};
+
+    Object.keys(fileStatuses).forEach(fileName => {
+      const status = fileStatuses[fileName];
+
+      if (status.isVisible) {
+        csv[fileName] = files[fileName];
+      }
+    });
 
     return (
-      <div style={{ display: "flex", width: "100%", height: "100%" }}>
-        <div
-          style={{
-            width: "300px",
-            height: "100%"
-          }}
-        >
-          <FileList files={Object.keys(csv).sort()} />
-        </div>
-        <div>
-          {Object.keys(csv).map(name => (
-            <div key={name}>
-              <Graph
-                width={800}
-                height={window.innerHeight}
-                title={name}
-                csv={csv[name]}
-              />
-            </div>
-          ))}
-          <div style={{ width: 300, height: 300 }}>
-            <CsvFileForm
-              onLoad={this._onLoad.bind(this)}
-              onError={this._onError.bind(this)}
-            />
-          </div>
-        </div>
-      </div>
+      <>
+        <FileList
+          fileStatuses={fileStatuses}
+          onChange={this._onChangeFileList.bind(this)}
+          onRemove={this._onRemoveFileList.bind(this)}
+        />
+        <CsvFileForm
+          onLoad={this._onLoadCsvFileForm.bind(this)}
+          onError={this._onErrorCsvFileForm.bind(this)}
+        />
+        <Graph width={800} height={window.innerHeight} title={name} csv={csv} />
+      </>
     );
   }
 
-  private _onLoad(results: CsvFile[]) {
-    const { addCsv } = this.props;
-    results.forEach(({ name, csv }) => addCsv(name, csv));
+  private _onLoadCsvFileForm(files: CsvFile[]) {
+    const { addFile } = this.props;
+
+    files.forEach(({ name, contents }) => {
+      addFile(name, contents);
+    });
   }
 
-  private _onError() {
+  private _onErrorCsvFileForm() {
     // Pass
+  }
+
+  private _onChangeFileList(name: string, status: FileStatus) {
+    const { changeFileStatus } = this.props;
+
+    changeFileStatus(name, status);
+  }
+
+  private _onRemoveFileList(name: string) {
+    const { removeFile } = this.props;
+
+    removeFile(name);
   }
 }
 
 const mapStateToProps = (state: State) => {
-  const { csv } = state;
+  const { files, fileStatuses } = state;
 
-  return { csv };
+  console.log(state);
+
+  return { files, fileStatuses };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    addCsv(name: string, csv: Csv) {
-      dispatch(actions.addCsv(name, csv));
+    addFile(name: string, contents: Contents) {
+      dispatch(filesActions.addFile(name, contents));
     },
-    removeCsv(name: string) {
-      dispatch(actions.removeCsv(name));
+    removeFile(name: string) {
+      dispatch(filesActions.removeFile(name));
+    },
+    changeFileStatus(name: string, status: FileStatus) {
+      dispatch(fileStatusesActions.changeFileStatus(name, status));
     }
   };
 };

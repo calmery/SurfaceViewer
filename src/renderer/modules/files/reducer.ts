@@ -1,21 +1,19 @@
-import { ADD_CSV, REMOVE_CSV } from "./actions";
-import { Csv } from "../../types";
+import { ADD_FILE, REMOVE_FILE } from "./actions";
+import { Files } from "../../types";
 
-export type CsvState = {
-  [key: string]: Csv;
-};
+export type FilesState = Files;
 
-const initialState: CsvState = {};
+const initialState: FilesState = {};
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ADD_CSV:
+    case ADD_FILE:
       return {
         ...state,
-        [action.payload.name]: action.payload.csv
+        [action.payload.name]: action.payload.contents
       };
 
-    case REMOVE_CSV:
+    case REMOVE_FILE:
       const nextState = { ...state };
       delete nextState[action.payload.name];
       return nextState;
