@@ -32,18 +32,34 @@ class Top extends React.Component<TopProps> {
     });
 
     return (
-      <>
-        <FileList
-          fileStatuses={fileStatuses}
-          onChange={this._onChangeFileList.bind(this)}
-          onRemove={this._onRemoveFileList.bind(this)}
-        />
-        <CsvFileForm
-          onLoad={this._onLoadCsvFileForm.bind(this)}
-          onError={this._onErrorCsvFileForm.bind(this)}
-        />
-        <Graph width={800} height={window.innerHeight} title={name} csv={csv} />
-      </>
+      <CsvFileForm
+        onLoad={this._onLoadCsvFileForm.bind(this)}
+        onError={this._onErrorCsvFileForm.bind(this)}
+      >
+        <div
+          style={{
+            width: window.innerWidth,
+            height: window.innerHeight,
+            display: "flex"
+          }}
+        >
+          <div
+            style={{
+              width: window.innerWidth - 300,
+              height: window.innerHeight
+            }}
+          >
+            <Graph title={name} csv={csv} />
+          </div>
+          <div style={{ width: 300, height: 100 }}>
+            <FileList
+              fileStatuses={fileStatuses}
+              onChange={this._onChangeFileList.bind(this)}
+              onRemove={this._onRemoveFileList.bind(this)}
+            />
+          </div>
+        </div>
+      </CsvFileForm>
     );
   }
 
