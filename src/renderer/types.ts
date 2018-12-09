@@ -23,4 +23,6 @@ export interface FileStatuses {
 
 export interface FileStatus {
   isVisible: boolean;
+  max: number;
+  min: number;
 }

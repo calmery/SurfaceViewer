@@ -21,13 +21,17 @@ class Top extends React.Component<TopProps> {
   public render() {
     const { files, fileStatuses } = this.props;
 
-    const csv = {};
+    const data = {};
 
     Object.keys(fileStatuses).forEach(fileName => {
       const status = fileStatuses[fileName];
 
       if (status.isVisible) {
-        csv[fileName] = files[fileName];
+        data[fileName] = {
+          max: status.max,
+          min: status.min,
+          csv: files[fileName]
+        };
       }
     });
 
@@ -49,7 +53,7 @@ class Top extends React.Component<TopProps> {
               height: window.innerHeight
             }}
           >
-            <Graph title={name} csv={csv} />
+            <Graph title={name} data={data} />
           </div>
           <div style={{ width: 300, height: 100 }}>
             <FileList
@@ -90,8 +94,6 @@ class Top extends React.Component<TopProps> {
 
 const mapStateToProps = (state: State) => {
   const { files, fileStatuses } = state;
-
-  console.log(state);
 
   return { files, fileStatuses };
 };
