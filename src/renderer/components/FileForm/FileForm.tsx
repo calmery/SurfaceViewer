@@ -18,6 +18,7 @@ class FileForm extends React.Component<FileFormProps> {
       <Dropzone
         className={styles.fileForm}
         multiple={multiple}
+        disableClick={true}
         onDropAccepted={this._onLoad.bind(this)}
         onDropRejected={this._onError.bind(this)}
         accept={accept.join(",")}

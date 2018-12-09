@@ -60,8 +60,8 @@ export default class Graph extends React.Component<GraphProps> {
     return (
       <ReactEcharts
         style={{
-          width,
-          height
+          width: width || "100%",
+          height: height || "100%"
         }}
         key={series.length} // オブジェクトが再利用されてしまうため長さを key として利用する
         option={{
