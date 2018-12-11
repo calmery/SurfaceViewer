@@ -1,0 +1,82 @@
+version: 2
+
+jobs:
+  setup:
+    docker:
+      - image: circleci/node:10.14.1
+
+    working_directory: ~/node
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - dependencies-{{ checksum "package.json" }}
+
+      - run: npm ci
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-{{ checksum "package.json" }}
+
+      - persist_to_workspace:
+          root: ~/
+          paths: ./*
+
+  build:
+    docker:
+      - image: circleci/node:10.14.1
+
+    working_directory: ~/node
+
+    steps:
+      - attach_workspace:
+          at: ~/
+
+      - run: npm run build
+
+  build-production:
+    docker:
+      - image: circleci/node:10.14.1
+
+    working_directory: ~/node
+
+    steps:
+      - attach_workspace:
+          at: ~/
+
+      - run: npm run build:production
+
+  release:
+    docker:
+      - image: circleci/node:10.14.1
+
+    working_directory: ~/node
+
+    steps:
+      - attach_workspace:
+          at: ~/
+
+      - run: npm run release
+
+workflows:
+  version: 2
+
+  build-and-release:
+    jobs:
+      - setup
+
+      - build:
+          requires:
+            - setup
+
+      - build-production:
+          requires:
+            - setup
+
+      - release:
+          requires:
+            - build
+            - build-production
