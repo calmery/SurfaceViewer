@@ -63,19 +63,21 @@ class Top extends React.Component<TopProps> {
           >
             <Graph title={name} data={data} />
           </div>
-          <div style={{ width: 300, height: 100 }}>
+          <div style={{ width: 300 }}>
             <FileList
               fileStatuses={fileStatuses}
               onChange={this._onChangeFileList.bind(this)}
               onRemove={this._onRemoveFileList.bind(this)}
             >
-              <CsvFileForm
-                onLoad={this._onLoadCsvFileForm.bind(this)}
-                onError={this._onErrorCsvFileForm.bind(this)}
-                disableClick={false}
-              >
-                <div className={styles.openButton}>Open...</div>
-              </CsvFileForm>
+              <div className={styles.openButtonContainer}>
+                <CsvFileForm
+                  onLoad={this._onLoadCsvFileForm.bind(this)}
+                  onError={this._onErrorCsvFileForm.bind(this)}
+                  disableClick={false}
+                >
+                  <div className={styles.openButton}>Open...</div>
+                </CsvFileForm>
+              </div>
             </FileList>
           </div>
         </div>

@@ -4,8 +4,6 @@ import * as mimeTypes from "mime-types";
 import { CsvFile } from "../../types";
 import FileForm from "../FileForm/FileForm";
 
-import * as styles from "./CsvFileForm.scss";
-
 interface CsvFileFormProps {
   onLoad: (results: CsvFile[]) => void;
   onError: () => void;
@@ -14,24 +12,9 @@ interface CsvFileFormProps {
   children?: React.ReactNode;
 }
 
-interface CsvFileFormState {
-  accepted: boolean;
-  rejected: boolean;
-}
-
-class CsvFileForm extends React.Component<CsvFileFormProps, CsvFileFormState> {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      accepted: false,
-      rejected: false
-    };
-  }
-
+class CsvFileForm extends React.Component<CsvFileFormProps> {
   public render() {
     const { multiple, children, disableClick } = this.props;
-    const { accepted, rejected } = this.state;
 
     return (
       <FileForm
@@ -41,19 +24,7 @@ class CsvFileForm extends React.Component<CsvFileFormProps, CsvFileFormState> {
         onError={this._onError.bind(this)}
         accept={[mimeTypes.types.csv]}
       >
-        {children ? (
-          children
-        ) : (
-          <div className={styles.csvFileForm}>
-            <div>
-              <div>
-                Choose File
-                {multiple === undefined || multiple === true ? "s" : ""}
-              </div>
-              <div>{accepted ? "OK" : rejected ? "Rejected" : ""}</div>
-            </div>
-          </div>
-        )}
+        {children}
       </FileForm>
     );
   }
@@ -74,11 +45,6 @@ class CsvFileForm extends React.Component<CsvFileFormProps, CsvFileFormState> {
         })
       );
 
-      this.setState({
-        accepted: true,
-        rejected: false
-      });
-
       onLoad(results);
     } catch (error) {
       this._onError();
@@ -87,11 +53,6 @@ class CsvFileForm extends React.Component<CsvFileFormProps, CsvFileFormState> {
 
   private _onError() {
     const { onError } = this.props;
-
-    this.setState({
-      accepted: false,
-      rejected: true
-    });
 
     onError();
   }
