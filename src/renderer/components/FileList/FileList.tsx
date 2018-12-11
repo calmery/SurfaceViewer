@@ -8,13 +8,14 @@ import * as styles from "./FileList.scss";
 
 interface FileListProps {
   fileStatuses: FileStatuses;
+  children?: React.ReactNode;
   onChange: (name: string, status: FileStatus) => void;
   onRemove: (name: string) => void;
 }
 
 class FileList extends React.Component<FileListProps> {
   public render() {
-    const { fileStatuses: files } = this.props;
+    const { fileStatuses: files, children } = this.props;
 
     return (
       <div className={styles.fileList}>
@@ -42,6 +43,7 @@ class FileList extends React.Component<FileListProps> {
             </div>
           );
         })}
+        {children}
       </div>
     );
   }

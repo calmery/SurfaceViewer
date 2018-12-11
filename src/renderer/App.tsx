@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { ConnectedRouter as Router } from "connected-react-router";
 import { store, history } from "./modules";
-import Top from "./containers/Top";
+import Top from "./containers/Top/Top";
 
 interface AppState {
   timestamp: number;
