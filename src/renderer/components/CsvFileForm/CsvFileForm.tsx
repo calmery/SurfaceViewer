@@ -22,7 +22,10 @@ class CsvFileForm extends React.Component<CsvFileFormProps> {
         disableClick={disableClick}
         onLoad={this._onLoad.bind(this)}
         onError={this._onError.bind(this)}
-        accept={[mimeTypes.types.csv]}
+        accept={[
+          mimeTypes.types.csv,
+          `.${mimeTypes.extensions[mimeTypes.types.csv]}`
+        ]}
       >
         {children}
       </FileForm>
