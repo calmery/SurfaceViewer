@@ -11,8 +11,12 @@ app.on("ready", () => {
     fullscreenable: false
   });
 
-  browserWindow.setTitle("");
+  browserWindow.setTitle("Surface Viewer");
   browserWindow.setMenu(null);
+
+  // Events
+
+  app.on("window-all-closed", () => app.quit());
 
   // Main
 
