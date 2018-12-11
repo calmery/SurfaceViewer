@@ -7,8 +7,12 @@ const launch = serve(path.resolve(__dirname, "../renderer"));
 app.on("ready", () => {
   const browserWindow = new BrowserWindow({
     width: 1024,
-    height: 768
+    height: 768,
+    fullscreenable: false
   });
+
+  browserWindow.setTitle("");
+  browserWindow.setMenu(null);
 
   // Main
 
