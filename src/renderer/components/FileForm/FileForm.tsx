@@ -7,18 +7,19 @@ interface FileFormProps {
   multiple: boolean;
   onLoad: (files: File[]) => void;
   onError: () => void;
+  disableClick?: boolean;
   children?: React.ReactNode;
 }
 
 class FileForm extends React.Component<FileFormProps> {
   public render() {
-    const { accept, multiple, children } = this.props;
+    const { accept, multiple, children, disableClick } = this.props;
 
     return (
       <Dropzone
         className={styles.fileForm}
         multiple={multiple}
-        disableClick={true}
+        disableClick={disableClick}
         onDropAccepted={this._onLoad.bind(this)}
         onDropRejected={this._onError.bind(this)}
         accept={accept.join(",")}

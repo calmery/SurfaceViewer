@@ -1,13 +1,20 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { State } from "../modules";
+import { State } from "../../modules";
 import { Dispatch } from "redux";
-import * as filesActions from "../modules/files/actions";
-import * as fileStatusesActions from "../modules/fileStatuses/actions";
-import { Contents, FileStatuses, Files, CsvFile, FileStatus } from "../types";
-import CsvFileForm from "../components/CsvFileForm/CsvFileForm";
-import FileList from "../components/FileList/FileList";
-import Graph from "../components/Graph/Graph";
+import * as filesActions from "../../modules/files/actions";
+import * as fileStatusesActions from "../../modules/fileStatuses/actions";
+import {
+  Contents,
+  FileStatuses,
+  Files,
+  CsvFile,
+  FileStatus
+} from "../../types";
+import CsvFileForm from "../../components/CsvFileForm/CsvFileForm";
+import FileList from "../../components/FileList/FileList";
+import Graph from "../../components/Graph/Graph";
+import * as styles from "./Top.scss";
 
 interface TopProps {
   files: Files;
@@ -39,6 +46,7 @@ class Top extends React.Component<TopProps> {
       <CsvFileForm
         onLoad={this._onLoadCsvFileForm.bind(this)}
         onError={this._onErrorCsvFileForm.bind(this)}
+        disableClick={true}
       >
         <div
           style={{
@@ -60,7 +68,15 @@ class Top extends React.Component<TopProps> {
               fileStatuses={fileStatuses}
               onChange={this._onChangeFileList.bind(this)}
               onRemove={this._onRemoveFileList.bind(this)}
-            />
+            >
+              <CsvFileForm
+                onLoad={this._onLoadCsvFileForm.bind(this)}
+                onError={this._onErrorCsvFileForm.bind(this)}
+                disableClick={false}
+              >
+                <div className={styles.openButton}>Open...</div>
+              </CsvFileForm>
+            </FileList>
           </div>
         </div>
       </CsvFileForm>

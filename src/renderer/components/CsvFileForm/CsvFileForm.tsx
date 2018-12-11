@@ -10,6 +10,7 @@ interface CsvFileFormProps {
   onLoad: (results: CsvFile[]) => void;
   onError: () => void;
   multiple?: boolean;
+  disableClick?: boolean;
   children?: React.ReactNode;
 }
 
@@ -29,12 +30,13 @@ class CsvFileForm extends React.Component<CsvFileFormProps, CsvFileFormState> {
   }
 
   public render() {
-    const { multiple, children } = this.props;
+    const { multiple, children, disableClick } = this.props;
     const { accepted, rejected } = this.state;
 
     return (
       <FileForm
         multiple={multiple}
+        disableClick={disableClick}
         onLoad={this._onLoad.bind(this)}
         onError={this._onError.bind(this)}
         accept={[mimeTypes.types.csv]}
