@@ -94,7 +94,7 @@ class Top extends React.Component<TopProps> {
   }
 
   private _onErrorCsvFileForm() {
-    // Pass
+    alert("ファイルの読み込みに失敗しました");
   }
 
   private _onChangeFileList(name: string, status: FileStatus) {
