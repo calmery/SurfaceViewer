@@ -72,7 +72,8 @@
   "scripts": {
     "start": "webpack-dev-server --port 3000",
     "build": "rimraf build && webpack",
-    "release": "rimraf release && npm run build && ts-node scripts/release",
+    "build:production": "NODE_ENV=production npm run build",
+    "release": "rimraf release && npm run build:production && ts-node scripts/release",
     "tslint": "tslint --fix --project ."
   }
 }
