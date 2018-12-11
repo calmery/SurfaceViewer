@@ -79,7 +79,8 @@ const buildForWindows = async (packageConfiguration: PackageConfiguration) => {
       directories: {
         app: path.resolve(__dirname, "../build"),
         output: path.resolve(__dirname, "../release")
-      }
+      },
+      icon: path.resolve(__dirname, "../icons/icon.ico")
     }
   });
 };
