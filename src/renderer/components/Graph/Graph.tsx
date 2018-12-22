@@ -73,6 +73,8 @@ export default class Graph extends React.Component<GraphProps> {
       };
     });
 
+    const L = max - min;
+
     return (
       <ReactEcharts
         style={{
@@ -98,7 +100,9 @@ export default class Graph extends React.Component<GraphProps> {
             type: "value"
           },
           zAxis3D: {
-            type: "value"
+            type: "value",
+            min: min - L / 2,
+            max: max + L / 2
           },
           grid3D: {},
           series
