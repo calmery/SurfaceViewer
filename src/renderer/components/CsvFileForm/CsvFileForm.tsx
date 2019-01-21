@@ -80,7 +80,13 @@ class CsvFileForm extends React.Component<CsvFileFormProps> {
 
   private parseCSV(blob: string): Promise<string[][]> {
     return new Promise((resolve, reject) => {
-      csvParse(blob, (error, result) => {
+      const options: csvParse.Options = {};
+
+      if (blob.includes("\t")) {
+        options.delimiter = "\t";
+      }
+
+      csvParse(blob, options, (error, result) => {
         if (error) {
           reject(error);
           return;
