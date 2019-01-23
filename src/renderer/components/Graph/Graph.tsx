@@ -56,16 +56,16 @@ export default class Graph extends React.Component<GraphProps> {
           x: {
             min: 0,
             max: baseSizeX - 1,
-            step: baseSizeX / sizeX
+            step: (baseSizeX - 1) / (sizeX - 1)
           },
           y: {
             min: 0,
             max: baseSizeY - 1,
-            step: baseSizeY / sizeY
+            step: (baseSizeY - 1) / (sizeY - 1)
           },
           z: (x, y) => {
-            const _x = Math.round((x * sizeX) / baseSizeX);
-            const _y = Math.round((y * sizeY) / baseSizeY);
+            const _x = Math.round((x * (sizeX - 1)) / (baseSizeX - 1));
+            const _y = Math.round((y * (sizeY - 1)) / (baseSizeY - 1));
 
             return target[_y][_x];
           }
